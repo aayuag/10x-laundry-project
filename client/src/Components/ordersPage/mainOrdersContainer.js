@@ -17,7 +17,7 @@ const MainOrdersContainer = (props) => {
 
   const [orderHistory, setOrderHistory] = useState([]);
 
-  const [filteredSearch, setFilteredSearch] = useState([]);
+  const [filteredSearch, setFilteredSearch] = useState("");
 
   const [modalShow, setModalShow] = useState(false);
 
@@ -38,7 +38,7 @@ const MainOrdersContainer = (props) => {
 
 
   useEffect(() => {
-    fetch("https://laundry-backend-nodejs.herokuapp.com/order", {
+    fetch("http://localhost:3001/order", {
       headers: {
         authorization: token,
       },
@@ -52,18 +52,7 @@ const MainOrdersContainer = (props) => {
 
 
   const handleFilter = (e) => {
-    const searchWord = e.target.value
-    console.log(e.target.value)
-    const newFilter = orderHistory.filter((value) => {
-      return value.orderId.includes(searchWord)
-    })
-    console.log(searchWord.length < 0)
-    if (searchWord.length === 0) {
-      setFilteredSearch([])
-    } else{
-      setFilteredSearch(newFilter)
-    }
- 
+    setFilteredSearch(e.target.value)
   }
 
   const handleNavigate=()=>{
@@ -107,17 +96,7 @@ const MainOrdersContainer = (props) => {
               ></img>
               <input onChange={handleFilter} type="text" className="ordersSearch"></input>
             </div>
-            {filteredSearch.length !== 0 && (
-                   <div className="search-results-div">
-                   {
-                    filteredSearch.map((item, key) => {
-                      return (
-                        <a href="/" className="search-result-a">{item.orderId}</a>
-                      )
-                    })
-                   }
-                </div>
-            )}
+            
           </div>
         </header>
         {orderHistory.length ? (
@@ -136,7 +115,13 @@ const MainOrdersContainer = (props) => {
                 <th scope="col">View</th>
               </tr>
             </thead>
-            {orderHistory.map((item, key) => {
+            {orderHistory.filter((item)=>{
+              if(filteredSearch==""){
+                return item
+              }else if(item.orderId.includes(filteredSearch)){
+                return item
+              }
+            }).map((item, key) => {
               return (
                 <tbody>
                   <tr>

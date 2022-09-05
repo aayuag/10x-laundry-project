@@ -42,7 +42,7 @@ const OrderSummary = (props) => {
 
 
     useEffect(() => {
-      fetch("https://laundry-backend-nodejs.herokuapp.com/user/details", {
+      fetch("http://localhost:3001/user/details", {
         headers: {
           authorization: token,
         },
@@ -87,7 +87,7 @@ const OrderMainDetails = {
 }
 
 const handleCreateOrder = () => {
-   fetch("https://laundry-backend-nodejs.herokuapp.com/order/add", {
+   fetch("http://localhost:3001/order/add", {
      method: "POST",
      body : JSON.stringify({
           userEmail: mainData.email,

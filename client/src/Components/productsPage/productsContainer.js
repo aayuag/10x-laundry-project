@@ -14,7 +14,7 @@ const ProductsContainer = (props) => {
 
     let pricesArray = []
     useEffect(() => {
-        fetch("https://laundry-backend-nodejs.herokuapp.com/product", {
+        fetch("http://localhost:3001/product", {
 
         })
             .then((res) => res.json())
